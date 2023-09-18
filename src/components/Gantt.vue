@@ -15,8 +15,8 @@ const config = {
   plugins: [
     TimelinePointer(),
     Selection({ enabled: true }),
-    ItemResizing({ enabled: false }),
-    ItemMovement({ enabled: false }),
+    ItemResizing({ enabled: true }),
+    ItemMovement({ enabled: true }),
   ],
   list: {
     columns: {
@@ -27,24 +27,29 @@ const config = {
     row: {
       height: 300
     },
-    rows: GSTC.api.fromArray(genRows(20)),
+    rows: GSTC.api.fromArray(genRows(1)),
   },
   chart: {
     item: {
       height: 56,
     },
-    items: GSTC.api.fromArray(genItems(20)),
+    items: GSTC.api.fromArray(genItems(1)),
     spacing: { left: 3, right: 3 },
+    time: {
+      from: GSTC.api.date("2020-01-01").startOf('day').valueOf(),
+      to: GSTC.api.date("2020-01-05").endOf('day').valueOf(),
+      zoom: 20,
+      autoExpandTimeFromItems: true,
+    }
   },
   scroll: {
     vertical: {
-      width: 30,
-      byPixels: true,
-      multiplier: 0.2
+      multiplier: 0.3,
+      byPixels: true
     },
     horizontal: {
-      width: 30,
-      byPixels: true,
+      multiplier: 0.3,
+      precise: true
     }
   }
 };
@@ -69,7 +74,6 @@ onMounted(() => {
 </script>
 
 <template>
-  <button @click="onClick">enable movement and resizing</button>
   <div ref="gantt" id="gantt"></div>
 </template>
 

@@ -22,34 +22,7 @@ export function genItems(size) {
                     rowId: `${n}`,
                     time: {
                         start: GSTC.api.date("2020-01-01").startOf("day").valueOf(),
-                        end: GSTC.api.date("2020-01-05").endOf("day").valueOf(),
-                    },
-                },
-                {
-                    id: `${n}-item-1`,
-                    label: `Item ${n + 1} row ${n}`,
-                    rowId: `${n}`,
-                    time: {
-                        start: GSTC.api.date("2020-01-07").startOf("day").valueOf(),
-                        end: GSTC.api.date("2020-01-12").endOf("day").valueOf(),
-                    },
-                },
-                {
-                    id: `${n}-item-2`,
-                    label: `Item ${n + 2} row ${n}`,
-                    rowId: `${n}`,
-                    time: {
-                        start: GSTC.api.date("2020-01-03").startOf("day").valueOf(),
-                        end: GSTC.api.date("2020-01-10").endOf("day").valueOf(),
-                    },
-                },
-                {
-                    id: `${n}-item-3`,
-                    label: `Item ${n + 3} row ${n}`,
-                    rowId: `${n}`,
-                    time: {
-                        start: GSTC.api.date("2020-01-04").startOf("day").valueOf(),
-                        end: GSTC.api.date("2020-01-17").endOf("day").valueOf(),
+                        end: GSTC.api.date("2020-01-02").endOf("day").valueOf(),
                     },
                 }
             ]

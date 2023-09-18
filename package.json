@@ -10,7 +10,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "gantt-schedule-timeline-calendar": "^3.34.5",
+    "gantt-schedule-timeline-calendar": "3.34.9",
     "vue": "^3.3.4"
   },
   "devDependencies": {
