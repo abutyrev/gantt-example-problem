@@ -7,6 +7,18 @@ import { Plugin as ItemResizing } from 'gantt-schedule-timeline-calendar/dist/pl
 import { Plugin as ItemMovement } from 'gantt-schedule-timeline-calendar/dist/plugins/item-movement.esm.min.js'
 import {onMounted, ref} from "vue";
 import {columnsFromDB, genItems, genRows} from "@/constants";
+
+const getDayLevel = () => {
+  return [
+    {
+      zoomTo: 100,
+      period: 'day',
+      periodIncrement: 1,
+      main: true, // we want grid to be divided by this period = day
+    }
+  ]
+}
+
 const config = {
   // for free key for your domain please visit https://gstc.neuronet.io/free-key
   // if you need commercial license please visit https://gantt-schedule-timeline-calendar.neuronet.io/pricing
@@ -15,8 +27,42 @@ const config = {
   plugins: [
     TimelinePointer(),
     Selection({ enabled: true }),
-    ItemResizing({ enabled: true }),
-    ItemMovement({ enabled: true }),
+    ItemResizing(
+        {
+          enabled: true,
+          onResize ({ items }) {
+            return items.after.map((item) => {
+              if ((item.time.start < state.data.config.chart.time.from || item.time.end > state.data.config.chart.time.to) && state.data.config.chart.time.calculatedZoomMode) {
+                state.update('config.chart.time.calculatedZoomMode', () => false)
+              }
+              return item
+            })
+          }
+        }
+    ),
+    ItemMovement(
+        {
+          enabled: true,
+          events: {
+            onMove({ items }) {
+              return items.before.map((beforeMovementItem, index) => {
+                // item data after move
+                const afterMovementItem = items.after[index]
+                // clone item to prevent bugs
+                const myItem = GSTC.api.merge({}, afterMovementItem)
+                // prevent items to change row
+
+                if ((myItem.time.start < state.data.config.chart.time.from || myItem.time.end > state.data.config.chart.time.to) && state.data.config.chart.time.calculatedZoomMode) {
+                  state.update('config.chart.time.calculatedZoomMode', () => false)
+                }
+
+                return myItem
+              })
+            }
+          }
+        }
+    )
+    ,
   ],
   list: {
     columns: {
@@ -36,11 +82,13 @@ const config = {
     items: GSTC.api.fromArray(genItems(1)),
     spacing: { left: 3, right: 3 },
     time: {
-      from: GSTC.api.date("2020-01-01").startOf('day').valueOf(),
-      to: GSTC.api.date("2020-01-05").endOf('day').valueOf(),
+      // from: GSTC.api.date("2020-01-01").startOf('day').valueOf(),
+      // to: GSTC.api.date("2020-01-01").endOf('day').valueOf(),
       zoom: 20,
       autoExpandTimeFromItems: true,
-    }
+      calculatedZoomMode: true,
+    },
+    calendarLevels: [getDayLevel()]
   },
   scroll: {
     vertical: {
@@ -79,6 +127,6 @@ onMounted(() => {
 
 <style scoped>
 #gantt {
-  width: 100%
+  width: 1000px
 }
 </style>

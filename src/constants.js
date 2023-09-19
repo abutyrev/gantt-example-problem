@@ -22,7 +22,7 @@ export function genItems(size) {
                     rowId: `${n}`,
                     time: {
                         start: GSTC.api.date("2020-01-01").startOf("day").valueOf(),
-                        end: GSTC.api.date("2020-01-02").endOf("day").valueOf(),
+                        end: GSTC.api.date("2020-01-01").endOf("day").valueOf(),
                     },
                 }
             ]
